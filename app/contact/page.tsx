@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, AlertCircle, CheckCircle } from "lucide-react"
+import { Mail, MapPin, Phone, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
 import { submitToGoogleSheets } from "@/lib/actions"
 
 export default function ContactPage() {
@@ -49,7 +49,7 @@ export default function ContactPage() {
     } catch (error) {
       setFormStatus({
         success: false,
-        message: "An unexpected error occurred. Please try again.",
+        message: "An unexpected error occurred. Please try again later.",
       })
     } finally {
       setIsSubmitting(false)
@@ -78,23 +78,27 @@ export default function ContactPage() {
             <div className="bg-card rounded-lg border shadow-sm p-6 md:p-8">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
 
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-4">
-                  {formStatus.message && (
-                    <div
-                      className={`p-4 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-700" : "bg-red-50 border border-red-200 text-red-700"}`}
-                    >
-                      <div className="flex items-start">
-                        {formStatus.success ? (
-                          <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0" />
-                        ) : (
-                          <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0" />
-                        )}
-                        <p>{formStatus.message}</p>
-                      </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {formStatus.message && (
+                  <div
+                    className={`p-4 rounded-md ${
+                      formStatus.success
+                        ? "bg-green-50 border border-green-200 text-green-700"
+                        : "bg-red-50 border border-red-200 text-red-700"
+                    }`}
+                  >
+                    <div className="flex items-start">
+                      {formStatus.success ? (
+                        <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+                      ) : (
+                        <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+                      )}
+                      <p>{formStatus.message}</p>
                     </div>
-                  )}
+                  </div>
+                )}
 
+                <div className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-1">
                       Name <span className="text-red-500">*</span>
@@ -106,6 +110,8 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Your name"
                       required
+                      disabled={isSubmitting}
+                      className="w-full"
                     />
                   </div>
 
@@ -121,45 +127,58 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Your email address"
                       required
+                      disabled={isSubmitting}
+                      className="w-full"
                     />
                   </div>
 
                   <div>
                     <label htmlFor="job" className="block text-sm font-medium mb-1">
-                      Job <span className="text-red-500">*</span>
+                      Project Type <span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="job"
                       name="job"
                       value={formData.job}
                       onChange={handleChange}
-                      placeholder="Type of project"
+                      placeholder="Type of project (e.g., Kitchen Remodel, New Construction)"
                       required
+                      disabled={isSubmitting}
+                      className="w-full"
                     />
                   </div>
 
                   <div>
                     <label htmlFor="comments" className="block text-sm font-medium mb-1">
-                      Additional Comments
+                      Project Details
                     </label>
                     <Textarea
                       id="comments"
                       name="comments"
                       value={formData.comments}
                       onChange={handleChange}
-                      placeholder="Tell us more about your project"
+                      placeholder="Tell us more about your project requirements and timeline"
                       rows={5}
+                      disabled={isSubmitting}
+                      className="w-full"
                     />
                   </div>
-
-                  <Button type="submit" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? "Submitting..." : "Submit"}
-                  </Button>
-
-                  <p className="text-xs text-muted-foreground text-center mt-2">
-                    Your information will be securely stored and never shared with third parties.
-                  </p>
                 </div>
+
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
+
+                <p className="text-xs text-muted-foreground text-center">
+                  Your information will be securely stored and never shared with third parties.
+                </p>
               </form>
             </div>
 
