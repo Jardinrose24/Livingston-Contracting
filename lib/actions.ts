@@ -10,74 +10,96 @@ type FormData = {
 }
 
 export async function submitToGoogleSheets(formData: FormData) {
+  console.log("Starting form submission...")
+
   try {
-    // Validate environment variables
-    if (!process.env.GOOGLE_CLIENT_EMAIL || !process.env.GOOGLE_PRIVATE_KEY || !process.env.GOOGLE_SHEET_ID) {
-      console.error("Missing required environment variables")
-      return {
-        success: false,
-        message: "Server configuration error. Please try again later.",
-      }
+    // First, let's check if we have all required environment variables
+    if (!process.env.GOOGLE_CLIENT_EMAIL) {
+      console.error("Missing GOOGLE_CLIENT_EMAIL")
+      throw new Error("Missing Google client email configuration")
     }
 
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.job) {
-      return {
-        success: false,
-        message: "Please fill in all required fields",
-      }
+    if (!process.env.GOOGLE_PRIVATE_KEY) {
+      console.error("Missing GOOGLE_PRIVATE_KEY")
+      throw new Error("Missing Google private key configuration")
     }
 
-    // Initialize Google Sheets API
-    try {
-      const auth = new google.auth.GoogleAuth({
-        credentials: {
-          client_email: process.env.GOOGLE_CLIENT_EMAIL,
-          private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-        },
-        scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-      })
+    if (!process.env.GOOGLE_SHEET_ID) {
+      console.error("Missing GOOGLE_SHEET_ID")
+      throw new Error("Missing Google Sheet ID configuration")
+    }
 
-      const sheets = google.sheets({ version: "v4", auth })
+    console.log("Environment variables verified")
 
-      // Log successful authentication
-      console.log("Successfully authenticated with Google Sheets API")
+    // Log the first few characters of each credential (for debugging)
+    console.log("Client Email starts with:", process.env.GOOGLE_CLIENT_EMAIL.substring(0, 5))
+    console.log("Sheet ID starts with:", process.env.GOOGLE_SHEET_ID.substring(0, 5))
 
-      // Prepare the data row
-      const timestamp = new Date().toISOString()
-      const row = [
-        formData.name,
-        formData.email,
-        formData.job,
-        formData.comments || "", // Handle empty comments
-        timestamp,
-      ]
+    // Format the private key correctly
+    // The key from Vercel might have literal \n strings that need to be converted to actual newlines
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n")
 
-      // Append data to the sheet
-      const response = await sheets.spreadsheets.values.append({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: "Sheet1!A:E", // Assuming first sheet with columns A-E
-        valueInputOption: "USER_ENTERED",
-        requestBody: {
-          values: [row],
-        },
-      })
+    console.log("Initializing Google Auth...")
 
-      // Log successful submission
-      console.log("Successfully appended data to sheet:", response.data.updates)
+    // Initialize the Google Auth
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: process.env.GOOGLE_CLIENT_EMAIL,
+        private_key: privateKey,
+      },
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    })
 
-      return {
-        success: true,
-        message: "Thank you! Your message has been submitted successfully.",
-      }
-    } catch (error) {
-      // Log the specific Google Sheets API error
-      console.error("Google Sheets API Error:", error)
-      throw error
+    console.log("Google Auth initialized, creating sheets client...")
+
+    // Create the sheets client
+    const sheets = google.sheets({ version: "v4", auth })
+
+    console.log("Preparing data for submission...")
+
+    // Prepare the data row
+    const row = [formData.name, formData.email, formData.job, formData.comments || "", new Date().toISOString()]
+
+    console.log("Attempting to append data to sheet...")
+
+    // Attempt to append the data
+    const response = await sheets.spreadsheets.values.append({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: "A1", // This will append to the first empty row
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [row],
+      },
+    })
+
+    console.log("Successfully appended data:", response.data)
+
+    return {
+      success: true,
+      message: "Thank you! Your message has been submitted successfully.",
     }
   } catch (error) {
-    // Handle any unexpected errors
-    console.error("Error submitting to Google Sheets:", error)
+    // Log the full error for debugging
+    console.error("Error in submitToGoogleSheets:", error)
+
+    // Check for specific error types
+    if (error instanceof Error) {
+      if (error.message.includes("invalid_grant")) {
+        console.error("Authentication error - check credentials")
+        return {
+          success: false,
+          message: "Server configuration error (invalid_grant). Please contact support.",
+        }
+      }
+      if (error.message.includes("insufficient permission")) {
+        console.error("Permission error - check sheet permissions")
+        return {
+          success: false,
+          message: "Server configuration error (permissions). Please contact support.",
+        }
+      }
+    }
+
     return {
       success: false,
       message: "An error occurred while submitting the form. Please try again later.",
