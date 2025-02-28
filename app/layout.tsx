@@ -10,7 +10,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Logan Livingston Contracting",
   description: "Professional contracting services for residential and commercial projects",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -19,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Navbar />
         <main className="min-h-screen">{children}</main>
@@ -29,6 +28,3 @@ export default function RootLayout({
   )
 }
 
-
-
-import './globals.css'
