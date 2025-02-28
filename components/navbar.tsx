@@ -14,9 +14,8 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <div className="relative h-8 w-8">
-            <Image src="/LIVINGSTON CONTRACTING.svg?height=32&width=32" alt="Logo" fill className="object-contain" />
+            <Image src="/LIVINGSTON CONTRACTING.svg?height=80&width=80" alt="Logo" fill className="object-contain" />
           </div>
-          <span className="font-bold text-xl">Logan Livingston Contracting</span>
         </Link>
 
         {/* Mobile menu button */}
