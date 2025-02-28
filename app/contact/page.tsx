@@ -6,7 +6,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Mail, MapPin, Phone, AlertCircle, CheckCircle } from "lucide-react"
+import { submitToGoogleSheets } from "@/lib/actions"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,28 +17,43 @@ export default function ContactPage() {
     comments: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [formStatus, setFormStatus] = useState<{
+    success?: boolean
+    message?: string
+  }>({})
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setFormStatus({})
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-      setFormData({
-        name: "",
-        email: "",
-        job: "",
-        comments: "",
+    try {
+      const result = await submitToGoogleSheets(formData)
+
+      setFormStatus(result)
+
+      if (result.success) {
+        // Reset form on success
+        setFormData({
+          name: "",
+          email: "",
+          job: "",
+          comments: "",
+        })
+      }
+    } catch (error) {
+      setFormStatus({
+        success: false,
+        message: "An unexpected error occurred. Please try again.",
       })
-    }, 1500)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -62,77 +78,89 @@ export default function ContactPage() {
             <div className="bg-card rounded-lg border shadow-sm p-6 md:p-8">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
 
-              {isSubmitted ? (
-                <div className="bg-green-50 border border-green-200 text-green-700 rounded-md p-6 text-center">
-                  <h3 className="text-xl font-bold mb-2">Thank You!</h3>
-                  <p>Your message has been submitted successfully. We'll get back to you as soon as possible.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div className="space-y-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-1">
-                        Name
-                      </label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                        required
-                      />
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-4">
+                  {formStatus.message && (
+                    <div
+                      className={`p-4 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-700" : "bg-red-50 border border-red-200 text-red-700"}`}
+                    >
+                      <div className="flex items-start">
+                        {formStatus.success ? (
+                          <CheckCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+                        ) : (
+                          <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0" />
+                        )}
+                        <p>{formStatus.message}</p>
+                      </div>
                     </div>
+                  )}
 
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-1">
-                        Email
-                      </label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Your email address"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="job" className="block text-sm font-medium mb-1">
-                        Job
-                      </label>
-                      <Input
-                        id="job"
-                        name="job"
-                        value={formData.job}
-                        onChange={handleChange}
-                        placeholder="Type of project"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="comments" className="block text-sm font-medium mb-1">
-                        Additional Comments
-                      </label>
-                      <Textarea
-                        id="comments"
-                        name="comments"
-                        value={formData.comments}
-                        onChange={handleChange}
-                        placeholder="Tell us more about your project"
-                        rows={5}
-                      />
-                    </div>
-
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                    </Button>
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-1">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Your name"
+                      required
+                    />
                   </div>
-                </form>
-              )}
+
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-1">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Your email address"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="job" className="block text-sm font-medium mb-1">
+                      Job <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      id="job"
+                      name="job"
+                      value={formData.job}
+                      onChange={handleChange}
+                      placeholder="Type of project"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="comments" className="block text-sm font-medium mb-1">
+                      Additional Comments
+                    </label>
+                    <Textarea
+                      id="comments"
+                      name="comments"
+                      value={formData.comments}
+                      onChange={handleChange}
+                      placeholder="Tell us more about your project"
+                      rows={5}
+                    />
+                  </div>
+
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
+
+                  <p className="text-xs text-muted-foreground text-center mt-2">
+                    Your information will be securely stored and never shared with third parties.
+                  </p>
+                </div>
+              </form>
             </div>
 
             {/* Contact Information */}
@@ -205,3 +233,4 @@ export default function ContactPage() {
     </>
   )
 }
+
