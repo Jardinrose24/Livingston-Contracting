@@ -1,0 +1,207 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Mail, MapPin, Phone } from "lucide-react"
+
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    job: "",
+    comments: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    // Simulate form submission
+    setTimeout(() => {
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+      setFormData({
+        name: "",
+        email: "",
+        job: "",
+        comments: "",
+      })
+    }, 1500)
+  }
+
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="bg-muted py-16 md:py-24">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
+            <p className="text-xl text-muted-foreground">
+              Get in touch with our team to discuss your project needs or request a quote.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form and Info */}
+      <section className="py-16 md:py-24">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Form */}
+            <div className="bg-card rounded-lg border shadow-sm p-6 md:p-8">
+              <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+
+              {isSubmitted ? (
+                <div className="bg-green-50 border border-green-200 text-green-700 rounded-md p-6 text-center">
+                  <h3 className="text-xl font-bold mb-2">Thank You!</h3>
+                  <p>Your message has been submitted successfully. We'll get back to you as soon as possible.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium mb-1">
+                        Name
+                      </label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Your name"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium mb-1">
+                        Email
+                      </label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Your email address"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="job" className="block text-sm font-medium mb-1">
+                        Job
+                      </label>
+                      <Input
+                        id="job"
+                        name="job"
+                        value={formData.job}
+                        onChange={handleChange}
+                        placeholder="Type of project"
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="comments" className="block text-sm font-medium mb-1">
+                        Additional Comments
+                      </label>
+                      <Textarea
+                        id="comments"
+                        name="comments"
+                        value={formData.comments}
+                        onChange={handleChange}
+                        placeholder="Tell us more about your project"
+                        rows={5}
+                      />
+                    </div>
+
+                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? "Submitting..." : "Submit"}
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+            {/* Contact Information */}
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+
+              <div className="space-y-8">
+                <div className="flex items-start">
+                  <MapPin className="h-6 w-6 text-primary mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-bold mb-1">Address</h3>
+                    <p className="text-muted-foreground">
+                      123 Construction Ave
+                      <br />
+                      Building City, ST 12345
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <Phone className="h-6 w-6 text-primary mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-bold mb-1">Phone</h3>
+                    <p className="text-muted-foreground">(555) 123-4567</p>
+                    <p className="text-sm text-muted-foreground">Monday-Friday, 8am-5pm</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <Mail className="h-6 w-6 text-primary mr-4 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-bold mb-1">Email</h3>
+                    <p className="text-muted-foreground">info@loganlivingstoncontracting.com</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-12">
+                <h3 className="text-xl font-bold mb-4">Business Hours</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Monday - Friday</span>
+                    <span>8:00 AM - 5:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Saturday</span>
+                    <span>9:00 AM - 2:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sunday</span>
+                    <span>Closed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="py-8 md:py-12">
+        <div className="container">
+          <div className="bg-muted rounded-lg overflow-hidden h-[400px] relative">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="text-muted-foreground">Map would be embedded here</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
