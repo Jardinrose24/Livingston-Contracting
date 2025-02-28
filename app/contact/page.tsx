@@ -22,23 +22,20 @@ export default function ContactPage() {
     message?: string
   }>({})
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setFormStatus({})
 
     try {
+      console.log("Submitting form data:", formData) // Debug log
+
       const result = await submitToGoogleSheets(formData)
+      console.log("Submission result:", result) // Debug log
 
       setFormStatus(result)
 
       if (result.success) {
-        // Reset form on success
         setFormData({
           name: "",
           email: "",
@@ -47,6 +44,7 @@ export default function ContactPage() {
         })
       }
     } catch (error) {
+      console.error("Form submission error:", error) // Debug log
       setFormStatus({
         success: false,
         message: "An unexpected error occurred. Please try again later.",
@@ -54,6 +52,11 @@ export default function ContactPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   return (
