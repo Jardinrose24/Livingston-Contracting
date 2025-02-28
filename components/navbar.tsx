@@ -11,10 +11,16 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-24 items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="relative h-8 w-8">
-            <Image src="/LIVINGSTON CONTRACTING.svg?height=80&width=80" alt="Logo" fill className="object-contain" />
+          <div className="relative h-20 w-80">
+            <Image
+              src="/LIVINGSTON CONTRACTING.svg"
+              alt="Livingston Contracting"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
         </Link>
 
@@ -95,3 +101,4 @@ export default function Navbar() {
     </header>
   )
 }
+
