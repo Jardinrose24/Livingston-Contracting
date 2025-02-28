@@ -13,13 +13,12 @@ export default function AboutPage() {
             <div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6">About Logan Livingston Contracting</h1>
               <p className="text-xl text-muted-foreground mb-6">
-                Building excellence through quality craftsmanship and exceptional service since 2010.
+                Building excellence through quality craftsmanship and exceptional service since 2025.
               </p>
               <p className="mb-8">
                 Logan Livingston Contracting is a full-service contracting company dedicated to delivering high-quality
                 construction services for residential and commercial clients. With a focus on craftsmanship,
-                reliability, and customer satisfaction, we've built a reputation as one of the most trusted contractors
-                in the region.
+                reliability, and customer satisfaction.
               </p>
               <Button asChild>
                 <Link href="/contact">Get in Touch</Link>
@@ -50,20 +49,19 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <p className="mb-4">
-                Founded in 2010 by Logan Livingston, our company began with a simple mission: to provide quality
+                Founded in 2025 by Logan Livingston, our company began with a simple mission: to provide quality
                 construction services with integrity and dedication. Logan started as a solo contractor, taking on small
                 residential projects and building a reputation for exceptional craftsmanship and reliability.
               </p>
               <p className="mb-4">
-                As word spread about the quality of our work, the company grew steadily. We expanded our team with
-                skilled professionals who share our commitment to excellence and attention to detail. Today, Logan
+                We expanded our team with a skilled professional who shares our commitment to excellence and attention to detail. Today, Logan
                 Livingston Contracting has evolved into a full-service contracting company capable of handling projects
                 of all sizes, from home renovations to commercial construction.
               </p>
               <p>
                 Throughout our growth, we've maintained our core values of quality, integrity, and customer
                 satisfaction. Every project we undertake reflects our dedication to these principles, and we're proud of
-                the lasting relationships we've built with our clients over the years.
+                the lasting relationships we've built with our clients.
               </p>
             </div>
             <div className="order-1 lg:order-2 relative h-[400px] rounded-lg overflow-hidden">
