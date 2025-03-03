@@ -41,6 +41,9 @@ export default function Navbar() {
           <Link href="/services" className="text-sm font-medium hover:text-primary transition-colors">
             Services
           </Link>
+          <Link href="/team" className="text-sm font-medium hover:text-primary transition-colors">
+            Our Team
+          </Link>
           <Link href="/gallery" className="text-sm font-medium hover:text-primary transition-colors">
             Gallery
           </Link>
@@ -79,6 +82,13 @@ export default function Navbar() {
               Services
             </Link>
             <Link
+              href="/team"
+              className="text-sm font-medium hover:text-primary transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Our Team
+            </Link>
+            <Link
               href="/gallery"
               className="text-sm font-medium hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
@@ -101,3 +111,4 @@ export default function Navbar() {
     </header>
   )
 }
+
