@@ -9,7 +9,7 @@ export default function TeamPage() {
       role: "Founder",
       description:
         "With 4 years of experience in fabrication and machining, as well as a year of farm work, Logan Livingston, the founder of Livingston Excavation, has proven himself to be a hard worker.",
-      image: "/placeholder.svg?height=400&width=400&text=Logan",
+      image: "/logan.jpg?height=400&width=400&text=Logan",
     },
     {
       name: "Joc",
