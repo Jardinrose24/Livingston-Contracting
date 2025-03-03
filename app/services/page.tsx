@@ -6,50 +6,69 @@ import { CheckCircle } from "lucide-react"
 export default function ServicesPage() {
   const services = [
     {
-      title: "Ditch Digging",
-      description: "Professional ditch digging services for drainage, utilities, or other needs.",
+      title: "Landscapes",
+      description: "Professional landscaping services to enhance your property's beauty and functionality.",
       features: [
-        "Precise depth and width control",
-        "Proper drainage slope",
-        "Clean and efficient execution",
-        "Site cleanup after completion",
+        "Custom landscape design",
+        "Plant selection and installation",
+        "Terrain modification",
+        "Sustainable solutions",
       ],
+      image: "/placeholder.svg?height=600&width=800&text=Landscapes",
+    },
+    {
+      title: "Excavating",
+      description: "Comprehensive excavation services for all your project needs.",
+      features: ["Site preparation", "Foundation excavation", "Utility trenching", "Precise grading"],
+      image: "/placeholder.svg?height=600&width=800&text=Excavating",
+    },
+    {
+      title: "Snow Removal",
+      description: "Reliable snow removal services to keep your property safe and accessible.",
+      features: ["24/7 emergency service", "Commercial & residential", "Parking lot clearing", "De-icing services"],
+      image: "/placeholder.svg?height=600&width=800&text=Snow+Removal",
+    },
+    {
+      title: "Ditch Digging",
+      description: "Professional ditch digging services for drainage and utilities.",
+      features: ["Precise depth control", "Proper drainage slopes", "Utility preparation", "Clean execution"],
       image: "/placeholder.svg?height=600&width=800&text=Ditch+Digging",
     },
     {
       title: "Grading",
-      description: "Expert land grading services to ensure proper drainage and site preparation.",
-      features: ["Level surfaces for construction", "Drainage optimization", "Site preparation", "Erosion control"],
+      description: "Expert grading services for proper drainage and site preparation.",
+      features: ["Land leveling", "Slope creation", "Drainage optimization", "Site preparation"],
       image: "/placeholder.svg?height=600&width=800&text=Grading",
     },
     {
       title: "Gravel Driveways",
       description: "Quality gravel driveway installation and maintenance.",
-      features: [
-        "Proper base preparation",
-        "Quality gravel selection",
-        "Drainage consideration",
-        "Professional installation",
-      ],
+      features: ["Base preparation", "Proper drainage", "Quality materials", "Long-lasting results"],
       image: "/placeholder.svg?height=600&width=800&text=Driveways",
     },
     {
       title: "Land Clearing & Management",
       description: "Comprehensive land clearing and ongoing management services.",
-      features: ["Brush removal", "Tree clearing", "Site preparation", "Land maintenance"],
+      features: ["Brush removal", "Tree clearing", "Property maintenance", "Site preparation"],
       image: "/placeholder.svg?height=600&width=800&text=Land+Clearing",
     },
     {
       title: "Barbed Wire Fencing",
       description: "Durable barbed wire fence installation for property security.",
-      features: ["Quality materials", "Proper post installation", "Secure wire installation", "Gate installation"],
+      features: ["Quality materials", "Proper installation", "Gate options", "Perimeter security"],
       image: "/placeholder.svg?height=600&width=800&text=Fencing",
     },
     {
-      title: "General Yard Excavation",
-      description: "Comprehensive yard excavation services for various needs.",
-      features: ["Pool excavation", "Foundation preparation", "Landscaping preparation", "Site cleanup"],
-      image: "/placeholder.svg?height=600&width=800&text=Excavation",
+      title: "Pondscape Installation",
+      description: "Custom pond design and installation for your property.",
+      features: ["Site evaluation", "Custom design", "Proper excavation", "Finishing touches"],
+      image: "/placeholder.svg?height=600&width=800&text=Pondscape",
+    },
+    {
+      title: "Hardscape Construction",
+      description: "Beautiful and durable hardscape solutions for your outdoor spaces.",
+      features: ["Retaining walls", "Patios", "Walkways", "Stone features"],
+      image: "/placeholder.svg?height=600&width=800&text=Hardscape",
     },
   ]
 
@@ -61,8 +80,8 @@ export default function ServicesPage() {
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Professional excavation and land management services for all your needs. From ditch digging to land
-              clearing, we've got you covered.
+              Professional excavation and landscaping services for all your needs. From land clearing to custom
+              pondscapes, we've got you covered.
             </p>
             <Button asChild>
               <Link href="/contact">Request a Quote</Link>
