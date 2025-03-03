@@ -7,10 +7,10 @@ export default function Footer() {
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">Logan Livingston Contracting</h3>
+            <h3 className="text-lg font-bold mb-4">Livingston Contracting</h3>
             <p className="mb-4">
-              Professional contracting services for residential and commercial projects. Quality craftsmanship and
-              reliable service since 2010.
+              Professional excavation services for residential and commercial projects. Quality workmanship and reliable
+              service.
             </p>
             <div className="flex space-x-4">
               <Link href="https://facebook.com" className="hover:text-primary transition-colors">
@@ -77,14 +77,28 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 mr-2 flex-shrink-0" />
-                <span>info@loganlivingstoncontracting.com</span>
+                <span>info@livingstoncontracting.com</span>
               </li>
             </ul>
+
+            <div className="mt-6">
+              <h4 className="font-bold mb-2">Business Hours</h4>
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <span>Monday - Saturday</span>
+                  <span>7:00 AM - 7:00 PM</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Sunday</span>
+                  <span>Closed</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="border-t border-secondary-foreground/20 mt-8 pt-8 text-center">
-          <p>&copy; {new Date().getFullYear()} Logan Livingston Contracting. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Livingston Contracting. All rights reserved.</p>
         </div>
       </div>
     </footer>
