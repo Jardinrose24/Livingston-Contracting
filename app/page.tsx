@@ -3,6 +3,59 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CheckCircle, ArrowRight } from "lucide-react"
 
+const whyChooseUs = [
+  {
+    title: "Experienced Team",
+    description: "Our team brings years of hands-on experience in excavation and land management.",
+  },
+  {
+    title: "Quality Work",
+    description: "We take pride in our attention to detail and superior workmanship.",
+  },
+  {
+    title: "Reliable Service",
+    description: "We show up when we say we will and complete projects on schedule.",
+  },
+  {
+    title: "Fair Pricing",
+    description: "Competitive rates with no hidden fees or surprises.",
+  },
+  {
+    title: "Local Knowledge",
+    description: "Deep understanding of local terrain and conditions.",
+  },
+  {
+    title: "Customer Satisfaction",
+    description: "Our success is measured by the satisfaction of our clients.",
+  },
+]
+
+const featuredProjects = [
+  {
+    title: "Project 1",
+    description: "Description coming soon",
+    image: "/placeholder.svg?height=400&width=400&text=Project+1",
+  },
+  {
+    title: "Project 2",
+    description: "Description coming soon",
+    image: "/placeholder.svg?height=400&width=400&text=Project+2",
+  },
+]
+
+const testimonials = [
+  {
+    name: "Coming Soon",
+    role: "Client",
+    quote: "Testimonial coming soon",
+  },
+  {
+    name: "Coming Soon",
+    role: "Client",
+    quote: "Testimonial coming soon",
+  },
+]
+
 export default function Home() {
   return (
     <>
@@ -123,32 +176,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Experienced Team",
-                description: "Our team brings decades of combined experience in the construction industry.",
-              },
-              {
-                title: "Quality Craftsmanship",
-                description: "We take pride in our attention to detail and superior workmanship.",
-              },
-              {
-                title: "On-Time Completion",
-                description: "We understand the importance of deadlines and strive to complete projects on schedule.",
-              },
-              {
-                title: "Transparent Pricing",
-                description: "No hidden fees or surprises. We provide detailed quotes and stick to our estimates.",
-              },
-              {
-                title: "Licensed & Insured",
-                description: "Fully licensed, bonded, and insured for your peace of mind.",
-              },
-              {
-                title: "Customer Satisfaction",
-                description: "Our success is measured by the satisfaction of our clients and the quality of our work.",
-              },
-            ].map((item, index) => (
+            {whyChooseUs.map((item, index) => (
               <div key={index} className="bg-card p-6 rounded-lg border shadow-sm">
                 <div className="flex items-start mb-4">
                   <CheckCircle className="h-6 w-6 text-primary mr-2 flex-shrink-0" />
@@ -172,12 +200,12 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div key={item} className="group relative overflow-hidden rounded-lg">
+            {featuredProjects.map((item) => (
+              <div key={item.title} className="group relative overflow-hidden rounded-lg">
                 <div className="aspect-square relative">
                   <Image
-                    src={`/placeholder.svg?height=400&width=400&text=Project ${item}`}
-                    alt={`Project ${item}`}
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
@@ -210,26 +238,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "John Smith",
-                role: "Homeowner",
-                quote:
-                  "Logan and his team did an amazing job on our kitchen renovation. They were professional, on time, and the quality of work exceeded our expectations.",
-              },
-              {
-                name: "Sarah Johnson",
-                role: "Business Owner",
-                quote:
-                  "We hired Logan Livingston Contracting for our office remodel and couldn't be happier with the results. The project was completed on schedule and within budget.",
-              },
-              {
-                name: "Michael Brown",
-                role: "Property Manager",
-                quote:
-                  "I've worked with many contractors over the years, and Logan Livingston Contracting stands out for their attention to detail and excellent communication throughout the project.",
-              },
-            ].map((testimonial, index) => (
+            {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white text-foreground p-6 rounded-lg shadow-md">
                 <div className="mb-4">
                   {[...Array(5)].map((_, i) => (
